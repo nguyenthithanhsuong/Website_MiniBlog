@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import api from "../api/axios";
 import { motion as Motion, AnimatePresence } from "framer-motion";
 import { Plus, Edit2, Trash2, Clock, User, X, Send, LayoutGrid } from "lucide-react";
+import { AuthContext } from "../context/AuthContextObject";
 
 const Posts = () => {
+  const { user } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -171,20 +173,22 @@ const Posts = () => {
                   <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
                     Tech Insight
                   </span>
-                  <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button 
-                      onClick={() => handleEdit(post)}
-                      className="p-2 hover:bg-amber-100 dark:hover:bg-amber-900/30 text-amber-600 rounded-xl transition-colors"
-                    >
-                      <Edit2 size={16} />
-                    </button>
-                    <button 
-                      onClick={() => handleDelete(post.id)}
-                      className="p-2 hover:bg-rose-100 dark:hover:bg-rose-900/30 text-rose-600 rounded-xl transition-colors"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
+                  {user && (user.userId === post.author_id || user.role === "admin") && (
+                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button 
+                        onClick={() => handleEdit(post)}
+                        className="p-2 hover:bg-amber-100 dark:hover:bg-amber-900/30 text-amber-600 rounded-xl transition-colors"
+                      >
+                        <Edit2 size={16} />
+                      </button>
+                      <button 
+                        onClick={() => handleDelete(post.id)}
+                        className="p-2 hover:bg-rose-100 dark:hover:bg-rose-900/30 text-rose-600 rounded-xl transition-colors"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 <h3 className="text-xl font-bold mb-3 dark:text-white group-hover:text-blue-500 transition-colors">

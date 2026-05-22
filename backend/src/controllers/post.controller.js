@@ -7,7 +7,7 @@ const getAllPosts = async (req, res) => {
     const offset = (page - 1) * limit;
 
     const query = `
-      SELECT p.id, p.title, p.content, u.username as author, p.created_at 
+      SELECT p.id, p.title, p.content, p.user_id as author_id, u.username as author, p.created_at 
       FROM posts p 
       JOIN users u ON p.user_id = u.id 
       ORDER BY p.created_at DESC 

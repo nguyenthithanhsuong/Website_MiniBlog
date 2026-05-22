@@ -24,7 +24,7 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status === 401) {
+    if (error.response && error.response.status === 401 && error.config && !error.config.url.includes('/auth/login')) {
       // Nếu lỗi 401 (Unauthorized), xóa token và reload lại trang (để về login)
       localStorage.removeItem("token");
       window.location.href = "/login";

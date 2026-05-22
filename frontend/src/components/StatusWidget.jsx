@@ -15,7 +15,7 @@ const StatusWidget = () => {
       const response = await axios.get(`${API_URL}/api/health`);
       setStatus(response.data);
     } catch {
-      setStatus({ status: 'ERROR', dbConnected: false });
+      setStatus({ status: 'ERROR', database: { connected: false } });
     } finally {
       setLoading(false);
     }
@@ -67,7 +67,7 @@ const StatusWidget = () => {
                 <div className="flex items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400">
                   <Database size={14} /> PostgreSQL
                 </div>
-                {status?.dbConnected ? <CheckCircle2 size={14} className="text-emerald-500" /> : <XCircle size={14} className="text-rose-500" />}
+                {status?.database?.connected ? <CheckCircle2 size={14} className="text-emerald-500" /> : <XCircle size={14} className="text-rose-500" />}
               </div>
 
               <div className="pt-2 border-t border-slate-200 dark:border-slate-700 mt-2">

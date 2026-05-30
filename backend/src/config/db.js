@@ -18,4 +18,10 @@ if (process.env.DATABASE_URL || process.env.DB_SSL === 'true') {
 
 const pool = new Pool(poolConfig);
 
+// Xử lý lỗi kết nối nhàn rỗi (idle client error) để tránh crash ứng dụng khi database đóng kết nối đột ngột (như Neon scale-to-zero)
+pool.on("error", (err, client) => {
+  console.error("Unexpected error on idle PostgreSQL client:", err.message || err);
+});
+
 module.exports = pool;
+
